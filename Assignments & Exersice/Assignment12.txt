@@ -1,0 +1,91 @@
+Assignment – 12
+
+Using the operators IN, ANY, and ALL.
+
+
+1) Write a query that selects all customers whose ratings are equal to or greater than
+ANY of Serres’.
+
+> select Cname, rating  
+	
+from customers 
+	
+where rating >= Any (select rating 
+				from customers 
+				where Snum IN (select Snum 
+							from salespeople 
+							where Sname = 'Serres')); 
+
+> select Cname, rating 
+	
+from customers
+
+	where rating >= (select rating 
+				from customers 
+				natural join salespeople 
+				where Sname = 'Serres') ;
+
+
+
+
+
+2) Write a query using ANY or ALL that will find all salespeople who have no
+customers located in their city.
+
+> select Sname from salespeople 
+	where city NOT IN (select city from customers); 
+
+> select Sname 
+	from salespeople 
+	where city !=All (select city from customers);
+
+
+
+3) Write a query that selects all orders for amounts greater than any for the
+customers in London.
+
+> select Onum, Amt 
+	from orders 
+	where amt > any (select amt 
+			from orders 
+			where cnum IN ( select Cnum 
+					from customers 
+					where city = 'London'));
+
+> select Onum,Amt 
+
+	from orders 
+
+	where orders.amt > any (select amt 
+				from orders natural join customers 
+				where city = 'London') ;
+
+
+
+4) Write the above query using MIN or MAX. 
+
+> select Onum, Amt 
+	from orders 
+	where amt >  (select min(amt) 
+			from orders 
+			where cnum IN ( select Cnum 
+					from customers 
+					where city = 'London'));
+
+> select Onum, Amt 
+	from orders 
+	where amt >  (select max(amt) 
+			from orders 
+			where cnum IN ( select Cnum 
+					from customers 
+					where city = 'London'));
+
+> select Onum,Amt 
+
+	from orders 
+
+	where orders.amt >  (select min(amt) 
+				from orders 
+				natural join customers 
+				where city = 'London') ;
+ 

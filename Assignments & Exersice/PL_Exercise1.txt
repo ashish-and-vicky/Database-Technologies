@@ -1,0 +1,262 @@
+MySQL    
+
+Exercise 1        
+
+1. Write a program that computes the perimeter and the area of a rectangle. 
+   Define your own values for the length and width. (Assuming that L and W are 
+   the length and width of the rectangle, Perimeter = 2*(L+W) and Area = L*W.  
+
+>  create table tri (no int(4), area float(4,2), perimeter int(5));
+
+>  delimiter //
+
+   create procedure Calc(a int(4),b int(4))
+
+   begin
+
+		declare area float(4,2);
+
+	        declare peri int(5);
+	
+        set area = a*b;
+	
+        set peri = 2*(a+b);
+	
+        insert into tri values (1,area,peri);
+
+  end; //
+
+  delimiter ;
+
+
+>  call Calc(1,3);
+
+
+>  select * from tri;
+    
+
+2. Write a program that declares an integer variable called num, assigns a 
+   value to it, and computes and inserts into the tempp table the value of 
+   the variable itself, its square, and its cube.     
+
+>  create table tempp ( nos int(4) , val int, square int , cube1 int);
+
+>  
+
+delimiter //
+   
+create procedure Calc()
+
+   begin 
+		
+	   declare x int(4);
+
+           set x = 5;
+        
+	   insert into tempp values (1,x,x*x,pow(x,3));
+   
+end; //
+
+   delimiter ;
+
+
+
+>  call calc();
+
+
+>  select * from tempp;
+
+    
+3. Convert a temperature in Fahrenheit (F) to its equivalent in Celsius (C) and vice versa.
+   The required formulae are:-  C= (F-32)*5/9    F= 9/5*C + 32        
+
+>  create table tempp (Temp int, Unit char ); 
+
+>  delimiter //
+   
+create procedure Conversion(C1 char(1), T int )
+   
+begin
+
+		declare C int default 0;
+
+                declare F int default 0;
+        
+        if C1 = 'C' or C1 = 'c' then
+
+				set F = 9/5*C + 32  ;
+
+	                        insert into tempp values(F,'F');
+
+		elseif C1 = 'F' or C1 = 'f'then
+ 
+				set C = (F-32)*5/9 ;
+
+                insert into tempp values(C,'C');
+        
+		else
+
+			insert into tempp values(404,'E');
+
+   		end if;
+
+  end ; //
+
+  delimiter ;
+
+>  select * from tempp ;
+
+OR
+
+>  delimiter //
+		create procedure temperature(v int,x char)
+		begin
+				declare fah int;
+                declare cel int;
+            case
+				when x = 'C' then
+					set fah = (9 / 5 * v) + 32;
+					insert into tempp values(v,'F');
+				when x = 'F' then
+					set cel = (v - 32) * (5 / 9);
+					insert into tempp values(cel,'C');
+			else 
+				begin
+				end;
+			end case;
+		end; //
+	delimiter ;
+
+
+
+4. Convert a number of inches into yards, feet and inches. For example, 124 inches equals 
+   3 yards, 1 foot and 4 inches.    
+ 
+>   create table tempp ( Inches float(7,2), Yard float(7,2) , Feet int , Inch int);
+
+
+>   
+delimiter //
+
+    create procedure Conversion(x float(7,2))
+
+    begin 
+    
+	   insert into tempp values ( x, x/36,x/12,mod(x,12));
+
+    end; //
+    
+delimiter ;
+
+
+>  call Conversion(124);
+
+>  select * from tempp;
+
+
+OR
+
+>   delimiter //
+    
+create procedure Conversion(x float(7,2))
+    
+begin 
+	
+	declare y float(7,2);
+
+        declare f int;
+    
+	declare i int default 0;
+    
+	set y = x/36;
+    
+	set f = x/12;
+    		
+	set i = mod(x,12);
+	    
+	insert into tempp values ( x, y,f,i);
+    
+end; //
+
+    delimiter ;
+	
+
+>   call Conversion(12);
+
+
+>   select * from tempp;
+   
+5. Write a program that enables a user to input an integer. The program should then state whether
+   the integer is evenly divisible by 5.    
+
+>  create table tempp (Result varchar(100));
+
+
+
+>  delimiter //
+
+   create procedure Dtest(x int )
+
+   begin
+
+	declare y varchar(100) ;
+
+		if mod(x,5) = 0 then
+
+			set y = concat( x," is Divisible by 5");
+
+			insert into tempp values (y);
+
+		else 
+
+			set y = concat( x," is Not Divisible by 5");
+
+                    	insert into tempp values (y);
+
+		end if;
+
+   end ; //
+
+   delimiter ;
+
+
+>  call Dtest(46);
+
+>  select * from tempp;
+
+    
+6. Your block should read in two real numbers and tell whether the product of the two numbers is 
+   equal to or greater than 100.     
+
+>  create table tempp (Result varchar(100));
+
+>  delimiter //
+
+   create procedure Check1(x int, y int)
+   
+begin
+
+	declare c varchar(100);
+
+		if x*y >= 100 then
+
+			set c = concat(x,", ",y," is greater than or equal to 100");
+
+                	insert into tempp values(c);
+
+		else	
+
+			set c = concat(x,", ",y," is less 100");
+
+	                insert into tempp values(c);
+	
+	end if;
+
+   end; //
+
+   delimiter ;
+
+
+>  call check1(5,10);
+
+>  select * from tempp;

@@ -1,0 +1,151 @@
+MySQL
+Exercise 3
+
+1. Write a program containing a loop that iterates from 1 to 1000 using a variable I,
+which is incremented each time around the loop. The program should output the
+value of I every hundred iterations (i.e., the output should be 100, 200, etc.).
+
+>  create table tempp (nos int);
+	
+>	delimiter //
+	create procedure itr(y int)
+	begin 
+		declare a int default 0;
+		while a<y do
+				set a=a+100;
+				insert into tempp values(a); 
+		end while;
+	end; //
+	delimiter ;
+
+>	call itr(1000);
+>	select * from tempp;
+
+
+2. Write a program that examines all the numbers from 1 to 999, displaying all those
+for which the sum of the cubes of the digits equal the number itself.
+
+>  create table tempp (Amstrongno Varchar(100));
+
+> delimiter //
+  create procedure amstrong()
+  begin
+		declare a int ;
+        declare r int default 0;
+        declare sum int default 0;
+        declare it int default 0;
+        while it<=999 do
+				set it=it+1;
+                set r=0;
+                set sum=0;
+				set a=it;
+				while a>0 do
+						set r=mod(a,10);
+                        set sum=sum+pow(r,3);
+						set a=floor(a/10);
+				end while;
+                if sum=it then 
+						insert into tempp values(concat(it," is Amstrong no."));
+				end if;
+		end while;
+    end; //
+  delimiter ;
+
+> call amstrong();
+
+>select * from tempp;
+
+
+
+3. Write a program that Selects from any table a minimum and maximum value for a
+radius, along with an increment factor, and generates a series of radii by repeatedly
+adding the increment to the minimum until the maximum is reached. For each value
+of the radius, compute and display the circumference, area, and volume of the
+sphere. (Be sure to include both the maximum and the minimum values.).
+
+>  create table circle( nos int, radius int );
+>  insert into circle values (1,2),(2,5),(3,6),(4,10),(5,6);
+>  create table tempp (Radius int , Circumference float(7,2),Area float(7,2),Volume float(7,2));
+
+>  delimiter //
+   create procedure check1(f int)
+   begin
+		declare maxa int default 0;
+        declare minb int default 0;
+        select max(radius) into maxa from circle;
+        select min(radius) into minb from circle;
+        while maxa >= minb do
+                    insert into tempp values (minb,2*(22/7)*minb, 4*(22/7)*minb*minb, (4/3)*(22/7)*pow(minb,3));
+                    set minb=minb+f;
+       end while ;
+   end ; //
+   delimiter ;
+
+>  call check1(1);
+
+>  select * from tempp;
+
+4. A palindrome is a word that is spelled the same forward and backward, such as
+level, radar, etc. Write a program to Selects from any table a five letter word and
+determine whether it is a palindrome.
+
+>  create table tempp(Result varchar(50));
+
+>  delimiter //
+   create procedure checkp(n int)
+   begin
+		declare x varchar(50);
+        select Ename into x from emp where Empno = n;
+		if reverse(x) = x then 
+				insert into tempp values (concat(x," is a Palingdrome"));
+		else
+				insert into tempp values (concat(x," is not a Palingdrome"));
+		end if;
+   end; //
+   delimiter ;
+
+>  call checkp(11);
+
+>  select * from tempp;
+
+
+
+5. Modify the above program to Select from any table a variable length word. This
+requires determining how many characters are read in. 
+
+>  create table tempp(Result varchar(50));
+
+>  delimiter //
+   create procedure checkp(n int) 
+   begin
+		declare x varchar(50);
+        select Ename into x from emp where length(Ename) = n limit 1;
+		if reverse(x) = x then 
+				insert into tempp values (concat(x," is a Palingdrome of length: ",length(x)));
+		else
+				insert into tempp values (concat(x," is not a Palingdrome of length: ",length(x)));
+		end if;
+   end; //
+   delimiter ;
+
+>  call checkp(6);
+>  select * from tempp;
+
+OR
+
+>  delimiter //
+	create procedure palindrome(x varchar(5))
+	begin
+		declare y int default 1;
+		declare z int default 0;
+		while(y <= floor(length(x)/2)) do
+			if substr(x,y,1) = substr(x,-y,1) then
+				set z = z + 1;
+			end if;
+			set y = y + 1;
+        end while;
+        if z = floor(length(x)/2) then
+        	insert into tempp values("word is a palindrome");
+        end if;
+    end; //
+    delimiter ;

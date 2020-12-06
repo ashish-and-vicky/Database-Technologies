@@ -1,0 +1,9 @@
+https://docs.google.com/spreadsheets/d/1PZvSXm6HyKfZVrS23XtjS7jvp2G1aQlM695ECsk7XwM/edit?usp=sharing
+h.w.
+
+initcap in Mysql
+> select concat(Upper(substr(Sname,1,1)),substr(Sname,2)) AS Sname from supplier; 
+
+Translate in mysql
+> select Sname from supplier where Sname IN (select replace(replace(replace(replace(replace(Sname,'a',''),'i',''),'e',''),'o',''),'u','') from supplier);
+> select Sname from supplier where Sname = replace(replace(replace(replace(replace(Sname,'a',''),'i',''),'e',''),'o',''),'u','');

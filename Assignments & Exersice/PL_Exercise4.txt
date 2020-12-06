@@ -1,0 +1,28 @@
+MySQL
+Exercise 4
+1. The CUSTOMER table of a state electricity board consists of the following fields:-
+
+Meter Number Varchar 4
+Meter Type Char 1
+ Previous Reading Int 5
+ Current Reading Int 5
+ Customer Type Char 1
+ Last Bill payment Char 1 (values could be ‘Y’ or ‘N’)
+
+There are two types of meters viz. 3- phase or 1-phase coded as ‘T’ or ‘S’
+respectively. There are 4 types of customers viz. Agricultural Industrial,
+Commercial and Residential with codes ‘A’ , ‘I’, ‘C’ and ‘R’ respectively.
+
+Formulae:-
+Units used = Current Reading – Previous Reading Rate
+=Rs.1/ 1.25/ 1.50/ 1.30 for A/I/C/R respectively.
+Amount = rate*units used
+Surcharge = 5% for single phase
+10% for 3 phase
+Excise = 30% of (amount +Surcharge)
+Net = Amount +Surcharge + Excise
+
+Write a block to calculate the bill for each customer. The program should insert the
+Meter no., Units used, Rate, Amount, Surcharge, Excise duty and Net for each
+customer into some other suitable table. Also, at the end, it should insert the total
+Amount, Surcharge, Excise and Net into some other table. 

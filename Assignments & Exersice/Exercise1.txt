@@ -1,0 +1,155 @@
+Execrcise 1
+
+1. Create the table SEMP with the following structure:- 
+
+>	create table SEMP
+	(
+	EMPNO char(4),
+	EMPNAME char(20),
+	BASIC float(9,2),
+	DEPTNO char(2),
+	DEPTHEAD char(4)
+	);		
+
+
+2. Create the table SDEPT with the following structure:- 
+
+>	create table SDEPT
+	(	
+	DEPTNO char(2),
+	DEPTNAME char(15) 
+	);
+
+3. Insert into the SDEPT table the following values:-
+	10, Development
+	20, Training 
+
+>	insert into SDEPT
+	(
+	(10,'Development'),
+	(20, 'Training')
+	);
+
+4. Insert into the SEMP table the following values:- 
+
+>	insert into SEMP values
+	('0001', 'SUNIL', 6000, '10','null'),
+	('0002', 'HIREN', 8000, '20','null'),
+	('0003', 'ALI', 4000, '10', '0001'),
+	('0004', 'GEORGE', 6000,'null','0002')
+	; 
+
+
+5. Create S, P, J, SPJ tables as specified below and insert a few rows in each table
+
+>	create database Exercise1;
+
+	use Exercise1; 
+	create table supplier
+	(
+	`S#` varchar(5) primary key,
+	Sname varchar(15),
+	Status varchar(10),
+	City char(10)
+	);
+
+
+	create table parts
+	(`P#` varchar(5) primary key,
+	Pname varchar(15),
+	Color varchar(10),Weight varchar(10),
+	City char(10)
+	);
+
+
+	create table projects
+	(
+	`J#` varchar(5) primary key,
+	Jname varchar(15),
+	City char(10)
+	);
+
+
+	create table SPJ
+	(
+	`S#` varchar(5),
+	`P#` varchar(5),
+	`J#` varchar(5),
+	foreign key(`S#`) references supplier(`S#`),
+	foreign key(`P#`) references parts(`P#`),
+	foreign key(`J#`) references projects(`J#`)
+	);
+
+	INSERT INTO supplier (`S#`, Sname, Status, City) VALUES ('S1', 'Tom', '10', 'London');
+	INSERT INTO supplier (`S#`, Sname, Status, City) VALUES ('S2', 'Dick', '20', 'Paris');
+	INSERT INTO supplier (`S#`, Sname, Status, City) VALUES ('S3', 'Harry', '30', 'Athens');
+
+	INSERT INTO parts (`P#`, Pname, Color, Weight, City) VALUES ('P1', 'Shaft', 'Red', '1000', 'Athens');
+	INSERT INTO parts (`P#`, Pname, Color, Weight, City) VALUES ('P2', 'Axelrod', 'Blue', '4000', 'London');
+	INSERT INTO parts (`P#`, Pname, Color, Weight, City) VALUES ('P3', 'Gear Box', 'Silver', '3000', 'Paris');
+
+	INSERT INTO projects (`J#`, Jname, City) VALUES ('J1', 'Mercedes', 'Paris');
+	INSERT INTO projects (`J#`, Jname, City) VALUES ('J2', 'Porsche', 'London');
+	INSERT INTO projects (`J#`, Jname, City) VALUES ('J3', 'Ferrari', 'Athen');
+
+
+Write the SELECT queries to do the following:- 
+
+
+6. Display all the data from the S table. 
+
+>	select * from supplier; 
+
+
+7. Display only the S# and SNAME fields from the S table. 
+
+>	select `S#`,Sname from supplier;
+
+
+8. Display the PNAME and COLOR from the P table for the CITY=”London”
+
+>	select Pname,color from parts where city='London'; 
+
+
+9. Display all the Suppliers from London. 
+
+>	select Sname from supplier where city='London'; 
+
+
+10. Display all the Suppliers from Paris or Athens. 
+
+>	select Sname from supplier where city='London' or city='Athens'; 
+ 
+
+11. Display all the Projects in Athens. 
+
+>	select * from Projects where city='Athen'; 
+ 
+
+12. Display all the Partnames with the weight between 12 and 14 (inclusive of both). 
+
+>	select Pname from Parts where weight >=1000 and weight <=2000; 
+
+
+13. Display all the Suppliers with a Status greater than or equal to 20. 
+
+>	select Sname from supplier where status>=20;
+
+
+14. Display all the Suppliers except the Suppliers from London
+
+>	select Sname from supplier where city!='London'; 
+
+
+15. Display only the Cities from where the Suppliers come from. 
+
+>	select City from supplier; 
+
+16.Assuming that the Part Weight is in GRAMS, display the same in MILLIGRAMS and KILOGRAMS. 
+
+>	select weight*1000 as milligram from parts;
+	select weight/1000 as Kilogram from parts;
+
+
+
+

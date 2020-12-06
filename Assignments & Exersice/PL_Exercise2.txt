@@ -1,0 +1,179 @@
+MySQL
+Exercise 2
+
+1. Select from any table a number and determine whether it is within a given range (for
+example, between 1 and 10).
+
+>  delimiter //
+   
+create procedure check1(x int, y int)
+   
+begin
+
+	declare n int;
+
+        declare c varchar(100);
+
+        select sal into n from emp where empno = 3;
+
+        if n between x and y then
+
+		set c = concat(n," is in range between ", x,', ', y);
+
+		insert into tempp values (c);
+
+	else
+		set c = concat(n," is not in range between ", x,', ', y);
+
+                insert into tempp values (c);
+		
+	end if;
+
+   end; //
+   
+delimiter ;
+
+
+>  call check1(1000,5000);
+
+>  select * from tempp;
+
+2. Select from any table three positive integers representing the sides of a triangle, and
+determine whether they form a valid triangle. Hint: In a triangle, the sum of any two
+sides must always be greater than the third side.
+
+>  delimiter //
+
+   create procedure check1(x int, y int, z int)
+
+   begin
+		
+	declare a int;
+
+        declare b int;
+
+        declare c int;
+
+        declare d varchar(100);
+
+        select sal into a from emp where empno = x;
+
+        select sal into b from emp where empno = y;
+
+        select sal into c from emp where empno = z;
+
+        if a+b > c and a+b > c and b+c > a then
+
+			set d = concat("The Triangle is valid having 3 sides ", a,', ', b,', ',c);
+
+			insert into tempp values (d);
+		
+	else 
+ 		
+			set d = concat("The Triangle is not valid having 3 sides ");
+
+	                insert into tempp values (d);
+		
+	end if;
+
+   end; //
+
+   delimiter ;
+  
+
+>  call check1(1,2,3);
+
+>  select * from tempp;
+
+
+3. Check if a given a year is a leap year. The condition is:- year should be (divisible by 4
+and not divisible by 100) or (divisible by 4 and divisible by 400.). The year should be
+Selected from some table.
+
+>  delimiter //
+
+   create procedure checkleap(x int)
+   
+begin
+
+	declare a date;
+
+        declare c varchar(100);
+
+        select Odate into a from order1 where Onum = x;
+
+        if (mod(year(a),100) != 0 and mod(year(a),4) = 0)  or ( mod(year(a),400) = 0 and mod(year(a),4) = 0)then
+
+					set c = concat(a, " is a Leap Year");
+                    
+					insert into tempp values(c);
+		
+	else
+ 
+					set c = concat(year(a), " is not a Leap Year");
+
+			                    insert into tempp values(c);
+
+        end if;
+
+   end; //
+
+   delimiter ;
+
+
+>  call checkleap(3004);
+
+>  select * from tempp;
+
+
+
+4. Write a program that Selects from any table two character strings. Your program should
+then determine if one character string exists inside another character string. 
+
+>  create table str1(nos int ,Name varchar(20));
+   
+insert into str1 values (1,'adi'),(2,'hrishi'),(3,'adinath'),( 4,'hrishikesh');
+
+   
+
+>  delimiter //
+
+   create procedure checkst1(s1 int,s2 int)
+
+   begin
+
+	declare x varchar(20);
+
+        declare y varchar(20);
+
+        declare z varchar(50);
+
+        declare w varchar(50);
+
+        select name into x from str1 where nos = s1;
+
+        select name into y from str1 where nos = s2;
+
+        set z = concat('%',x,'%');
+
+        set w = concat('%',y,'%');
+
+        if  (y like z) or (x like w) then
+
+			insert into tempp values("String Exits inside another string");
+
+	else
+
+			insert into tempp values("String does not exits in another String");
+
+	end if;
+
+   end; //
+
+   delimiter ;
+
+ 
+>  call checkst1(1,3);
+
+
+>  select * from tempp;
